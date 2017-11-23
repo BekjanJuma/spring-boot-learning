@@ -1,20 +1,20 @@
 package org.springframework.boot.data_jpa;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
-@RequestMapping(path="/demo")
+
+@RestController
 public class CustomerController {
 
 	@Autowired
 	private CustomerRepository customerRepository;
 	
-	@GetMapping(path="/add")
+	@RequestMapping(value = "/customers", method = RequestMethod.POST)
 	public @ResponseBody String addNewUser(@RequestParam String firstname,
 			@RequestParam String lastname) {
 		
@@ -23,9 +23,8 @@ public class CustomerController {
 		return "Saved";
 	}
 	
-	@GetMapping(path="/all")
+	@RequestMapping(value = "/customers", method = RequestMethod.GET)
 	public @ResponseBody Iterable<Customer> getAllCustomers(){
-		Iterable<Customer> customers = customerRepository.findAll();
 		return customerRepository.findAll();
 	}
 	
